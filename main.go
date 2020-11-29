@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/Chillaso/financial-house/service"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -21,6 +22,9 @@ func getBookByYearAndMonth(c *gin.Context){
 	if err != nil {
 		print(err)
 	}
-	book := service.GetBookByYearAndMonth(year, month)
+	book, err := service.GetBookByYearAndMonth(year, month)
+	if err != nil {
+		log.Fatal(err)
+	}
 	c.JSON(http.StatusOK, book)
 }
