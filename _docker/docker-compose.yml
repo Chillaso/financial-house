@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongodb-financial
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: "financialHouse"
+    ports:
+    - 27017:27017
+    volumes:
+    - mongodb:/data/db
+    - ./init.js:/docker-entrypoint-initdb.d/init.js
+
+volumes:
+  mongodb:
+
