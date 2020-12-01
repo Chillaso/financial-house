@@ -20,11 +20,10 @@ const (
 var db *mongo.Database
 
 func GetBookByYearAndMonth(year int, month int) (model.Book, error) {
-	result := db.Collection(COLLECTION).FindOne(context.TODO(), bson.M{"year": year})
-	if err := result.Err(); err != nil {
-		log.Println(err)
-	}
 
+	query := bson.D{{"year", year}, {"months.month", month}}
+
+	result := db.Collection(COLLECTION).FindOne(context.TODO(), query)
 	book := model.Book{}
 	err := result.Decode(&book)
 	if err != nil {
