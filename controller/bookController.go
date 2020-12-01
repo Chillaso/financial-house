@@ -9,21 +9,50 @@ import (
 	"strconv"
 )
 
-func GetBookByYearAndMonth(c *gin.Context){
-	year, err := strconv.Atoi(c.Param("year"))
-	month, err := strconv.Atoi(c.Param("month"))
+func GetAllBooks(context *gin.Context){
+	books, err := service.GetAllBooks()
 	if err != nil {
-		log.Println(err)
+		log.Panicln(err)
+	} else{
+		context.JSON(http.StatusOK, books)
 	}
+}
+
+func GetBookByYearAndMonth(context *gin.Context){
+	year, err := strconv.Atoi(context.Param("year"))
+	if err != nil {
+		log.Panicln(err)
+	}
+	month, err := strconv.Atoi(context.Param("month"))
+	if err != nil {
+		log.Panicln(err)
+	}
+
 	book, err := service.GetBookByYearAndMonth(year, month)
 	if err != nil {
 		log.Println(err)
 		if err == mongo.ErrNoDocuments{
-			c.JSON(http.StatusNotFound, book)
+			context.JSON(http.StatusNotFound, book)
 		} else{
-			c.JSON(http.StatusInternalServerError, book)
+			context.JSON(http.StatusInternalServerError, book)
 		}
 	} else{
-		c.JSON(http.StatusOK, book)
+		context.JSON(http.StatusOK, book)
 	}
+}
+
+func AddBook(context *gin.Context) {
+
+}
+
+func AddEntry(context *gin.Context) {
+
+}
+
+func ModifyEntry(context *gin.Context) {
+
+}
+
+func RemoveEntry(context *gin.Context) {
+
 }
