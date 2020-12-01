@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/Chillaso/financial-house/service"
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"net/http"
 	"strconv"
@@ -17,7 +18,11 @@ func GetBookByYearAndMonth(c *gin.Context){
 	book, err := service.GetBookByYearAndMonth(year, month)
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, book)
+		if err == mongo.ErrNoDocuments{
+			c.JSON(http.StatusNotFound, book)
+		} else{
+			c.JSON(http.StatusInternalServerError, book)
+		}
 	} else{
 		c.JSON(http.StatusOK, book)
 	}
