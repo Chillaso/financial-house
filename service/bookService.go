@@ -6,6 +6,5 @@ import (
 )
 
 func GetBookByYearAndMonth(year int, month int) (model.Book, error) {
-	book, err := repository.GetBookByYearAndMonth(year, month)
-	return book, err
+	return repository.GetBookByYearAndMonth(year, month)
 }

@@ -3,28 +3,47 @@ package repository
 import (
 	"context"
 	"github.com/Chillaso/financial-house/model"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
+	"os"
 	"time"
 )
 
+const (
+	DATABASE          = "financialHouse"
+	COLLECTION 		  = "book"
+	MONGOFINANCIALURI = "MONGO_FINANCIAL_URI"
+)
+
+var db *mongo.Database
+
 func GetBookByYearAndMonth(year int, month int) (model.Book, error) {
-	client := getClient()
-	ctx, _ :=context.WithTimeout(context.Background(), 10 * time.Second)
-	err := client.Connect(ctx)
-	if err != nil {
-		log.Fatal(err)
+	result := db.Collection(COLLECTION).FindOne(context.TODO(), bson.M{"year": year})
+	if err := result.Err(); err != nil {
+		log.Println(err)
 	}
-	defer client.Disconnect(ctx)
 
-	return model.Book{}, nil
+	book := model.Book{}
+	err := result.Decode(&book)
+	if err != nil {
+		return book, err
+	} else{
+		return book, nil
+	}
 }
 
-func getClient() *mongo.Client{
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://admin:admin@localhost:27017"))
+func init() {
+	client, err := mongo.NewClient(options.Client().ApplyURI(os.Getenv(MONGOFINANCIALURI)))
 	if err != nil {
-		log.Fatal(err)
+		log.Panicln(err)
 	}
-	return client
+	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
+	err = client.Connect(ctx)
+	if err != nil {
+		log.Panicln(err)
+	}
+	db = client.Database(DATABASE)
 }
+
