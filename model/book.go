@@ -15,7 +15,7 @@ type Entry struct {
 
 type Month struct {
 	Month int 				`json:"month,omitempty"`
-	Entries []Entry 		`json:"entry,omitempty"`
+	Entries []Entry 		`json:"entries,omitempty"`
 }
 
 type Book struct {
@@ -23,5 +23,5 @@ type Book struct {
 	CreatedAt time.Time 	`bson:"created_at" json:"created_at,omitempty"`
 	UpdatedAt time.Time 	`bson:"updated_at" json:"updated_at,omitempty"`
 	Year int 				`json:"year,omitempty"`
-	Months []Month 			`json:"month,omitempty"`
+	Months []Month 			`json:"months,omitempty"`
 }
