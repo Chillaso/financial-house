@@ -46,10 +46,10 @@ func AddBook(context *gin.Context) {
 	var book model.Book
 	err :=  context.Bind(&book)
 	if  err == nil {
-		if insertedBookID, err1 := service.AddBook(&book); err1 != nil && insertedBookID != nil {
-			context.JSON(http.StatusOK, insertedBookID.InsertedID)
-		}else {
-			log.Println(err1)
+		if insertedBookID, err := service.AddBook(&book); err == nil && insertedBookID != nil {
+			context.JSON(http.StatusOK, "OK")
+		} else {
+			log.Println(err)
 			context.JSON(http.StatusInternalServerError, -1)
 		}
 	} else {
