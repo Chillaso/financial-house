@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/Chillaso/financial-house/model"
 	"github.com/Chillaso/financial-house/service"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -42,7 +43,19 @@ func GetBookByYearAndMonth(context *gin.Context){
 }
 
 func AddBook(context *gin.Context) {
-
+	var book model.Book
+	err :=  context.Bind(&book)
+	if  err == nil {
+		if insertedBookID, err1 := service.AddBook(&book); err1 != nil && insertedBookID != nil {
+			context.JSON(http.StatusOK, insertedBookID.InsertedID)
+		}else {
+			log.Println(err1)
+			context.JSON(http.StatusInternalServerError, -1)
+		}
+	} else {
+		log.Println(err)
+		context.JSON(http.StatusBadRequest, err)
+	}
 }
 
 func AddEntry(context *gin.Context) {

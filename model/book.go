@@ -22,6 +22,6 @@ type Book struct {
 	ID primitive.ObjectID 	`bson:"_id" json:"id,omitempty"`
 	CreatedAt time.Time 	`bson:"created_at" json:"created_at,omitempty"`
 	UpdatedAt time.Time 	`bson:"updated_at" json:"updated_at,omitempty"`
-	Year int 				`json:"year,omitempty"`
+	Year int 				`json:"year,omitempty" binding:"required"`
 	Months []Month 			`json:"months,omitempty"`
 }

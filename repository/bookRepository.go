@@ -23,6 +23,7 @@ var (
 
 func GetAllBooks() ([]model.Book, error){
 	books := make([]model.Book, 0, 2)
+	//TODO: Should have some method to page results
 	cursor, err := db.Collection(COLLECTION).Find(context.Background(), bson.D{}, options.Find().SetLimit(int64(10)))
 	if cursor != nil && err == nil {
 		ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
@@ -43,6 +44,10 @@ func GetBookByYearAndMonth(year int, month int) (model.Book, error) {
 	book := model.Book{}
 	err := result.Decode(&book)
 	return book, err
+}
+
+func AddBook(book *model.Book) (*mongo.InsertOneResult, error){
+	return db.Collection(COLLECTION).InsertOne(context.Background(), book)
 }
 
 func init() {
