@@ -9,6 +9,7 @@ type Entry struct {
 	Date        *time.Time 	`json:"date,omitempty"`
 	Type        int       	`json:"type,omitempty"`
 	Amount      int       	`json:"amount,omitempty"`
+	Category	string		`json:"category,omitempty"`
 	Concept     string    	`json:"concept,omitempty"`
 	Description string    	`json:"description,omitempty"`
 }
