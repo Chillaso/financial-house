@@ -6,7 +6,7 @@ import (
 )
 
 type Entry struct {
-	Date        time.Time 	`json:"date,omitempty"`
+	Date        *time.Time 	`json:"date,omitempty"`
 	Type        int       	`json:"type,omitempty"`
 	Amount      int       	`json:"amount,omitempty"`
 	Concept     string    	`json:"concept,omitempty"`
@@ -19,9 +19,7 @@ type Month struct {
 }
 
 type Book struct {
-	ID primitive.ObjectID 	`bson:"_id" json:"id,omitempty"`
-	CreatedAt time.Time 	`bson:"created_at" json:"created_at,omitempty"`
-	UpdatedAt time.Time 	`bson:"updated_at" json:"updated_at,omitempty"`
+	Id primitive.ObjectID 	`bson:"_id,omitempty" json:"-"`
 	Year int 				`json:"year,omitempty" binding:"required"`
 	Months []Month 			`json:"months,omitempty"`
 }
