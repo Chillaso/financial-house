@@ -12,8 +12,8 @@ func RegisterControllers(router *gin.Engine){
 
 	router.GET("/entry/:year/:month", FindEntriesByYearAndMonth)
 	router.POST("/entry", Insert)
-	router.PUT("/entry/:entryId", Update)
-	router.DELETE("/entry/:entryId", Remove)
+	router.PUT("/entry/:id", Update)
+	router.DELETE("/entry/:id", Remove)
 }
 
 func health(context *gin.Context){

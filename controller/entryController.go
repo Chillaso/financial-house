@@ -63,5 +63,12 @@ func Update(context *gin.Context) {
 }
 
 func Remove(context *gin.Context) {
-
+	entryId := context.Param("id")
+	err := service.Remove(entryId)
+	if err != nil {
+		log.Println(err)
+		context.JSON(http.StatusInternalServerError, err)
+	} else{
+		context.JSON(http.StatusOK, "OK")
+	}
 }

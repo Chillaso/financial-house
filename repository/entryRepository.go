@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/Chillaso/financial-house/model"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
@@ -59,8 +60,9 @@ func Update(entry *model.Entry) error {
 	return nil
 }
 
-func Remove(entryId int) error {
-	return nil
+func Remove(entryId primitive.ObjectID) error {
+	_, err := db.Collection(COLLECTION).DeleteOne(context.Background(), bson.D{{"_id", entryId}})
+	return err
 }
 
 func init() {
