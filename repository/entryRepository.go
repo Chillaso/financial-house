@@ -13,7 +13,7 @@ import (
 
 const (
 	DATABASE          = "financialHouse"
-	COLLECTION 		  = "book"
+	COLLECTION 		  = "entry"
 	MONGOFINANCIALURI = "MONGO_FINANCIAL_URI"
 )
 
@@ -21,33 +21,46 @@ var (
 	db *mongo.Database
 )
 
-func GetAllBooks() ([]model.Book, error){
-	books := make([]model.Book, 0, 2)
+func FindAll() ([]model.Entry, error){
+	entries := make([]model.Entry, 0, 2)
 	//TODO: Should have some method to page results
 	cursor, err := db.Collection(COLLECTION).Find(context.Background(), bson.D{}, options.Find().SetLimit(int64(10)))
 	if cursor != nil && err == nil {
 		ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
 		for cursor.Next(ctx) {
-			book := model.Book{}
-			err = cursor.Decode(&book)
-			books = append(books, book)
+			entry := model.Entry{}
+			err = cursor.Decode(&entry)
+			entries = append(entries, entry)
 		}
 	}
-	return books, err
+	return entries, err
 }
 
-func GetBookByYearAndMonth(year int, month int) (model.Book, error) {
-
-	query := bson.D{{"year", year}, {"months.month", month}}
-
-	result := db.Collection(COLLECTION).FindOne(context.TODO(), &query)
-	book := model.Book{}
-	err := result.Decode(&book)
-	return book, err
+func FindEntriesByYearAndMonth(year int, month int) ([]model.Entry, error) {
+	var entries []model.Entry
+	query := bson.D{{"year", year}, {"month",month}}
+	cursor, err := db.Collection(COLLECTION).Find(context.Background(), query, options.Find().SetLimit(int64(100)))
+	if cursor != nil && err == nil {
+		ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
+		for cursor.Next(ctx) {
+			entry := model.Entry{}
+			err = cursor.Decode(&entry)
+			entries = append(entries, entry)
+		}
+	}
+	return entries, err
 }
 
-func AddBook(book *model.Book) (*mongo.InsertOneResult, error){
-	return db.Collection(COLLECTION).InsertOne(context.Background(), book)
+func Insert(entry *model.Entry) (*mongo.InsertOneResult, error){
+	return db.Collection(COLLECTION).InsertOne(context.Background(), entry)
+}
+
+func Update(entry *model.Entry) error {
+	return nil
+}
+
+func Remove(entryId int) error {
+	return nil
 }
 
 func init() {

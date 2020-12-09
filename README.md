@@ -11,6 +11,7 @@ DIY, avoid companies control your finances.
 ### TODO:
 
 - [ ] Finish CRUD
+- [ ] Add validations  
 - [ ] Add filters  
 - [ ] Add budgets
 - [ ] Hand errors in a clean way, view [this](https://github.com/henrmota/errors-handling-example) for more details

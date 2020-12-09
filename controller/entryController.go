@@ -10,16 +10,16 @@ import (
 	"strconv"
 )
 
-func GetAllBooks(context *gin.Context){
-	books, err := service.GetAllBooks()
+func FindAll(context *gin.Context){
+	entries, err := service.FindAll()
 	if err != nil {
 		log.Panicln(err)
 	} else{
-		context.JSON(http.StatusOK, books)
+		context.JSON(http.StatusOK, entries)
 	}
 }
 
-func GetBookByYearAndMonth(context *gin.Context){
+func FindEntriesByYearAndMonth(context *gin.Context){
 	year, err := strconv.Atoi(context.Param("year"))
 	if err != nil {
 		log.Panicln(err)
@@ -29,24 +29,24 @@ func GetBookByYearAndMonth(context *gin.Context){
 		log.Panicln(err)
 	}
 
-	book, err := service.GetBookByYearAndMonth(year, month)
+	entries, err := service.FindEntriesByYearAndMonth(year, month)
 	if err != nil {
 		log.Println(err)
 		if err == mongo.ErrNoDocuments{
-			context.JSON(http.StatusNotFound, book)
+			context.JSON(http.StatusNotFound, entries)
 		} else{
-			context.JSON(http.StatusInternalServerError, book)
+			context.JSON(http.StatusInternalServerError, entries)
 		}
 	} else{
-		context.JSON(http.StatusOK, book)
+		context.JSON(http.StatusOK, entries)
 	}
 }
 
-func AddBook(context *gin.Context) {
-	var book model.Book
-	err :=  context.Bind(&book)
+func Insert(context *gin.Context) {
+	var entry model.Entry
+	err :=  context.Bind(&entry)
 	if  err == nil {
-		if insertedBookID, err := service.AddBook(&book); err == nil && insertedBookID != nil {
+		if insertedBookID, err := service.Insert(&entry); err == nil && insertedBookID != nil {
 			context.JSON(http.StatusOK, "OK")
 		} else {
 			log.Println(err)
@@ -58,14 +58,10 @@ func AddBook(context *gin.Context) {
 	}
 }
 
-func AddEntry(context *gin.Context) {
+func Update(context *gin.Context) {
 
 }
 
-func ModifyEntry(context *gin.Context) {
-
-}
-
-func RemoveEntry(context *gin.Context) {
+func Remove(context *gin.Context) {
 
 }
