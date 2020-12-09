@@ -6,7 +6,7 @@ import (
 )
 
 type Entry struct {
-	Id primitive.ObjectID 	`bson:"_id,omitempty" json:"id,omitempty"`
+	Id *primitive.ObjectID 	`bson:"_id,omitempty" json:"id,omitempty"`
 	Year int 				`json:"year,omitempty" binding:"required"`
 	Month int 				`json:"month,omitempty" binding:"required"`
 	Date        *time.Time 	`json:"date,omitempty"`
