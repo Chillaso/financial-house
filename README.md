@@ -10,9 +10,11 @@ DIY, avoid companies control your finances.
 
 ### TODO:
 
-- [ ] Finish CRUD
-- [ ] Add validations  
-- [ ] Add filters  
-- [ ] Add budgets
+- [x] Finish CRUD
+- [ ] Add validations
+- [ ] Add budgets CRUD and logic
+- [ ] Add filters
 - [ ] Hand errors in a clean way, view [this](https://github.com/henrmota/errors-handling-example) for more details
+- [ ] Add a base controller and base service to reuse CRUD common logic
 - [ ] Add pagination to results 
+- [ ] Infrastructure
