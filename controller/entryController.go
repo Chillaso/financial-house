@@ -59,7 +59,21 @@ func Insert(context *gin.Context) {
 }
 
 func Update(context *gin.Context) {
-
+	entryId := context.Param("id")
+	var entry model.Entry
+	err := context.Bind(&entry)
+	if err != nil {
+		log.Println(err)
+		context.JSON(http.StatusBadRequest, err)
+	}else{
+		err = service.Update(entryId, &entry)
+		if err != nil {
+			log.Println(err)
+			context.JSON(http.StatusInternalServerError, err)
+		} else{
+			context.JSON(http.StatusOK, "OK")
+		}
+	}
 }
 
 func Remove(context *gin.Context) {

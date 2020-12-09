@@ -56,8 +56,9 @@ func Insert(entry *model.Entry) (*mongo.InsertOneResult, error){
 	return db.Collection(COLLECTION).InsertOne(context.Background(), entry)
 }
 
-func Update(entry *model.Entry) error {
-	return nil
+func Update(id primitive.ObjectID, entry *model.Entry) error {
+	_, err := db.Collection(COLLECTION).ReplaceOne(context.Background(), bson.D{{"_id", id}}, entry)
+	return err
 }
 
 func Remove(entryId primitive.ObjectID) error {

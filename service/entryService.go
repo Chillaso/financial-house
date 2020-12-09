@@ -19,8 +19,13 @@ func Insert(entry *model.Entry) (*mongo.InsertOneResult, error){
 	return repository.Insert(entry)
 }
 
-func Update(entry *model.Entry) error{
-	return repository.Update(entry)
+func Update(entryId string, entry *model.Entry) error{
+	id, err := primitive.ObjectIDFromHex(entryId)
+	if err != nil {
+		return err
+	} else{
+		return repository.Update(id, entry)
+	}
 }
 
 func Remove(entryId string) error {
