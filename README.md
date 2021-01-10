@@ -11,10 +11,11 @@ DIY, avoid companies control your finances.
 ### TODO:
 
 - [x] Finish CRUD
+- [ ] Add calculation logic
 - [ ] Add validations
-- [ ] Add budgets CRUD and logic
+- [ ] Add budgets CRUD 
 - [ ] Add filters
 - [ ] Hand errors in a clean way, view [this](https://github.com/henrmota/errors-handling-example) for more details
 - [ ] Add a base controller and base service to reuse CRUD common logic
-- [ ] Add pagination to results 
-- [ ] Infrastructure
+- [ ] Add result pagination
+- [ ] Infrastructure (Going to deploy in Raspberry pi 4 with MicroK8s)

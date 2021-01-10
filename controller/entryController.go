@@ -20,14 +20,7 @@ func FindAll(context *gin.Context){
 }
 
 func FindEntriesByYearAndMonth(context *gin.Context){
-	year, err := strconv.Atoi(context.Param("year"))
-	if err != nil {
-		log.Panicln(err)
-	}
-	month, err := strconv.Atoi(context.Param("month"))
-	if err != nil {
-		log.Panicln(err)
-	}
+	year, month := getYearAndMonthParams(context)
 
 	entries, err := service.FindEntriesByYearAndMonth(year, month)
 	if err != nil {
@@ -85,4 +78,25 @@ func Remove(context *gin.Context) {
 	} else{
 		context.JSON(http.StatusOK, "OK")
 	}
+}
+
+func GetResultByYearAndMonth(context *gin.Context){
+	year, month := getYearAndMonthParams(context)
+	debit, asset, err := service.GetResultByYearAndMonth(year, month)
+	if err != nil {
+		log.Println(err)
+	}
+	print(debit, asset)
+}
+
+func getYearAndMonthParams(context *gin.Context) (int, int){
+	year, err := strconv.Atoi(context.Param("year"))
+	if err != nil {
+		log.Panicln(err)
+	}
+	month, err := strconv.Atoi(context.Param("month"))
+	if err != nil {
+		log.Panicln(err)
+	}
+	return year, month
 }
